@@ -93,18 +93,18 @@ class editTab(QWidget):
     def textChanged(self, text):
         self.cardName = text
 
-    # TODO: implement Add Card button
+    # TODO: implement Add Card button. Add to deck, and cards (update if already exists)
     def addCard(self):
         # TODO: open popup window with inputs for each column for the currently selected deck
         print("addCard called")
         queryDB(f'''INSERT IF NOT EXISTS INTO {deckName}''')
 
-    # TODO: implement Edit Card button
+    # TODO: implement Edit Card button. Update card in `cards` table
     def editCard(self):
         # TODO: open popup window with inputs for each column for the currently selected deck
         print("editCard called")
 
-    # TODO: implement Remove Card button
+    # TODO: implement Remove Card button. Removes card from `cards` table and current deck
     def removeCard(self):
         print("Removed " + self.cardName)
         queryDB()
