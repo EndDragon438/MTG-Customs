@@ -463,6 +463,8 @@ class statsTab(QWidget):
             colorData.setPieSize(1)
 
             colors = [QColor(Qt.yellow), QColor(Qt.darkGray), QColor(Qt.cyan), QColor(Qt.magenta), QColor(Qt.green), QColor(Qt.gray)]
+            # I want to use these for a tooltip, but slices 
+            # colorNames = ['White', 'Black', 'Blue', 'Red', 'Green', 'Colorless']
             colorIterator = 0
             for slice in colorData.slices():
                 slice.setLabelPosition(QPieSlice.LabelInsideHorizontal)
