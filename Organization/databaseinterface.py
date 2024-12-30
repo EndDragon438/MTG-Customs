@@ -426,6 +426,7 @@ class statsTab(QWidget):
         layout = QGridLayout()
 
         cardCount = cursor.execute(f'''SELECT COUNT(*) FROM {decks[deckIndex]}''').fetchone()[0]
+        cardCountCost = cursor.execute(f'''SELECT COUNT(*) FROM cards WHERE name IN(SELECT name FROM {decks[deckIndex]}) AND mcost > 0 ''').fetchone()[0]
         if cardCount > 0:
             countLabel = QLabel(f"{cardCount} cards")
             countLabel.setAlignment(Qt.AlignHCenter)
@@ -433,7 +434,7 @@ class statsTab(QWidget):
             total = cursor.execute(f'''SELECT SUM(mcost) FROM cards WHERE name IN (SELECT name FROM {decks[deckIndex]})''').fetchone()[0]
             totalColor = total - cursor.execute(f'''SELECT SUM(acost) FROM cards WHERE name IN(SELECT name FROM {decks[deckIndex]})''').fetchone()[0]
             
-            meanCost = str(total / cardCount)[:5]
+            meanCost = str(total / cardCountCost)[:5]
 
             meanLabel = QLabel(f"{meanCost} mean CMC")
             meanLabel.setAlignment(Qt.AlignHCenter)
