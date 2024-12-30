@@ -70,8 +70,11 @@ class viewTab(QWidget):
             table = QTableWidget(0, 11)
             table.setHorizontalHeaderLabels(["Name","Type","Rules", "Any Color", "White", "Black", "Blue", "Red", "Green", "Colorless", "Total Cost"])
 
-            cards = cursor.execute(f'''SELECT name, type, rules, acost, wcost, bcost, ucost, rcost, gcost, ccost, mcost FROM cards WHERE name IN (SELECT name FROM {decks[deckIndex]})''').fetchall()
-
+            names = cursor.execute(f'''SELECT name FROM {decks[deckIndex]}''').fetchall()
+            cards = []
+            for name in names:
+                cards.append(cursor.execute(f'''SELECT name, type, rules, acost, wcost, bcost, ucost, rcost, gcost, ccost, mcost FROM cards WHERE name='{name[0]}';''').fetchone())
+            
             for row in range(len(cards)):
                 table.insertRow(row)
                 for column in range(table.columnCount()):
@@ -200,6 +203,9 @@ class addCardDialog(QDialog):
                         self.ccost += 1
                     else:
                         print("Unknown mana")
+        # Add the card to the deck
+        deckQuery = f'''INSERT INTO {decks[deckIndex]} VALUES('{self.name}');'''
+        editDB(deckQuery)
         # Query to add the card to the `cards` masterlist
         cardsQuery = f'''INSERT INTO cards VALUES('{self.name}', '{self.url}', '{self.type}', '{self.rules}', {self.acost}, {self.wcost}, {self.bcost}, {self.ucost}, {self.rcost}, {self.gcost}, {self.ccost});'''
         # Try adding it, if it already exists move on.
@@ -208,10 +214,7 @@ class addCardDialog(QDialog):
         except sqlite3.IntegrityError:
             pass
         except Exception as e:
-            print(f"Something broke adding a card: {e}")
-        # Add the card to the deck
-        deckQuery = f'''INSERT INTO {decks[deckIndex]} VALUES('{self.name}');'''
-        editDB(deckQuery)
+            print(f"Something broke adding a card: {e}") 
         self.close()
 
 class editCardDialog(QDialog):
