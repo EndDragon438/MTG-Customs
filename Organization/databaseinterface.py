@@ -485,6 +485,7 @@ class statsTab(QWidget):
             typeData.append("Artifacts", cursor.execute(f'''SELECT COUNT(*) FROM cards WHERE name IN (SELECT name FROM {decks[deckIndex]}) AND type LIKE '%Artifact%';''').fetchone()[0])
             typeData.append("Sorceries", cursor.execute(f'''SELECT COUNT(*) FROM cards WHERE name IN (SELECT name FROM {decks[deckIndex]}) AND type LIKE '%Sorcery%';''').fetchone()[0])
             typeData.append("Enchantments", cursor.execute(f'''SELECT COUNT(*) FROM cards WHERE name IN (SELECT name FROM {decks[deckIndex]}) AND type LIKE '%Enchantment%';''').fetchone()[0])
+            typeData.append("Lands", cursor.execute(f'''SELECT COUNT(*) FROM cards WHERE name IN(SELECT name FROM {decks[deckIndex]}) AND type LIKE '%Land%';''').fetchone()[0])
 
             typeData.setPieSize(1)
 
