@@ -425,7 +425,7 @@ class statsTab(QWidget):
 
         layout = QGridLayout()
 
-        cardCount = cursor.execute(f'''SELECT COUNT(*) FROM cards WHERE name IN (SELECT name FROM {decks[deckIndex]})''').fetchone()[0]
+        cardCount = cursor.execute(f'''SELECT COUNT(*) FROM {decks[deckIndex]}''').fetchone()[0]
         if cardCount > 0:
             countLabel = QLabel(f"{cardCount} cards")
             countLabel.setAlignment(Qt.AlignHCenter)
