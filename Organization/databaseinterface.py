@@ -2,6 +2,7 @@
 # Provides statistics for each deck, as well as [i dunno]
 
 import sqlite3
+import os
 
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QAction, QPalette, QBrush, QColor, QPainter
@@ -26,7 +27,7 @@ from PySide6.QtWidgets import (
 ### Database stuff
 
 # Absolute path to the database file
-dbpath = 'E:\\Creations\\Programming\\WebDev\\MTG Customs\\MTG-Customs\\Organization\\mtgc.db'
+dbpath = os.path.dirname(__file__) + "/mtgc.db"
 con = sqlite3.connect(dbpath)
 cursor = con.cursor()
 
